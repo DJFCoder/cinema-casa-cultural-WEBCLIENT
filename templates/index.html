@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title>Casa Cultural - Cinema</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+
+<body x-data="app()" x-init="init()">
+    <!-- Navbar será carregada aqui -->
+    <div id="navbar-container"></div>
+
+    <main class="display">
+        <div class="container-fluid container">
+            <div class="d-flex align-items-center justify-content-center">
+                <!-- Conteúdo dinâmico -->
+                <div id="content-container"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- jQuery & Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Configurações -->
+    <script src="/static/js/config/apiConfig.js"></script>
+
+    <!-- Utilitários -->
+    <script src="/static/js/utils/uiUtils.js"></script>
+
+    <!-- Serviços -->
+    <script src="/static/js/services/filmesService.js"></script>
+    <script src="/static/js/services/analisesService.js"></script>
+
+    <!-- Renderizadores -->
+    <script src="/static/js/renderers/filmesRenderer.js"></script>
+    <script src="/static/js/renderers/analisesRenderer.js"></script>
+
+    <!-- Alpine.js App -->
+    <script>
+        // Variável global para navegação
+        window.appNavigate = null;
+        window.currentPage = 'home';
+
+        function app() {
+            return {
+                currentPage: 'home',
+
+                init() {
+                    // Expõe a função de navegação globalmente
+                    window.appNavigate = (page) => this.navigate(page);
+                    window.getCurrentPage = () => this.currentPage;
+
+                    // Carrega a navbar
+                    this.loadComponent('navbar', 'navbar-container');
+                    // Carrega a página inicial
+                    this.loadPage('home');
+                },
+
+                async loadComponent(componentName, containerId) {
+                    try {
+                        const response = await fetch(`/templates/component/${componentName}.html`);
+                        const html = await response.text();
+                        document.getElementById(containerId).innerHTML = html;
+
+                        // Após carregar a navbar, configura os event listeners
+                        if (componentName === 'navbar') {
+                            this.setupNavbarListeners();
+                        }
+                    } catch (error) {
+                        console.error(`Erro ao carregar componente ${componentName}:`, error);
+                    }
+                },
+
+                setupNavbarListeners() {
+                    // Configura os links da navbar
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        // Remove listeners antigos para evitar duplicação
+                        link.replaceWith(link.cloneNode(true));
+                    });
+
+                    // Re-query after cloning
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const page = link.getAttribute('data-page');
+                            if (page) {
+                                this.navigate(page);
+                            }
+                        });
+                    });
+
+                    // Configura o link da marca/logo
+                    const brandLinkOld = document.querySelector('.navbar-brand');
+                    if (brandLinkOld) {
+                        const brandLink = brandLinkOld.cloneNode(true);
+                        brandLinkOld.replaceWith(brandLink);
+                        brandLink.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            this.navigate('home');
+                        });
+                    }
+
+                    // Atualiza a classe active inicial
+                    this.updateActiveLink();
+                },
+
+                updateActiveLink() {
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        const page = link.getAttribute('data-page');
+                        if (page === this.currentPage) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                },
+
+                async loadPage(pageName) {
+                    this.currentPage = pageName;
+                    window.currentPage = pageName;
+
+                    try {
+                        const response = await fetch(`/templates/content/${pageName}.html`);
+                        const html = await response.text();
+                        document.getElementById('content-container').innerHTML = html;
+
+                        // Atualiza o link ativo na navbar
+                        this.updateActiveLink();
+                    } catch (error) {
+                        console.error(`Erro ao carregar página ${pageName}:`, error);
+                    }
+                },
+
+                navigate(page) {
+                    this.loadPage(page);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

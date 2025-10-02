@@ -1,0 +1,39 @@
+.display {
+  padding: 50px;
+}
+
+/* --- Sistema de Avaliação por Estrelas --- */
+.rating {
+  display: inline-block;
+  direction: rtl;
+  /* Inverte a ordem para o truque com o seletor ~ funcionar */
+}
+
+.rating input {
+  display: none;
+  /* Esconde os inputs de rádio */
+}
+
+.rating label {
+  cursor: pointer;
+  font-size: 2rem;
+  padding: 0 0.1em;
+  transition: color 0.2s;
+}
+
+.rating label i {
+  color: #e0e0e0;
+  /* Cor padrão (cinza) para as estrelas */
+}
+
+/* Pinta a estrela e as anteriores ao passar o mouse */
+.rating label:hover i,
+.rating label:hover~label i {
+  color: #ffc107;
+  /* Cor de aviso do Bootstrap (amarelo) */
+}
+
+/* Pinta a estrela selecionada e as anteriores */
+.rating input:checked~label i {
+  color: #ffc107;
+}

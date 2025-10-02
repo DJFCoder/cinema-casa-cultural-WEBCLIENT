@@ -1,0 +1,65 @@
+<!-- Análises -->
+<div>
+  <div class="d-flex justify-content-center align-items-center mb-4">
+    <h1 class="h2">
+      <i class="bi bi-chat-square-quote me-2"></i>
+      Adicionar Análise
+    </h1>
+  </div>
+
+  <!-- Formulário de Análise -->
+  <div class="card bg-light mb-5">
+    <div class="card-body">
+      <form id="analise-form">
+        <div class="row g-3">
+          <div class="col-md-12">
+            <label for="filmeSelect" class="form-label">Selecione o Filme</label>
+            <select class="form-select" id="filmeSelect" name="filmeId" required>
+              <option selected disabled value="">Escolha um filme para analisar...</option>
+              <!-- As opções serão carregadas via jQuery -->
+            </select>
+          </div>
+
+          <div class="col-md-12">
+            <label for="analiseTexto" class="form-label">Sua Análise</label>
+            <textarea class="form-control" id="analiseTexto" name="filmeAnalise" rows="4"
+              placeholder="Escreva aqui o que você achou do filme..." required></textarea>
+          </div>
+
+          <!-- Sistema de Notas com Estrelas Interativas -->
+          <div class="col-md-9">
+            <label class="form-label d-block">Sua Nota</label>
+            <div class="rating">
+              <input type="radio" id="star5" name="nota" value="5" required /><label for="star5" title="5 estrelas"><i
+                  class="bi bi-star-fill"></i></label>
+              <input type="radio" id="star4" name="nota" value="4" /><label for="star4" title="4 estrelas"><i
+                  class="bi bi-star-fill"></i></label>
+              <input type="radio" id="star3" name="nota" value="3" /><label for="star3" title="3 estrelas"><i
+                  class="bi bi-star-fill"></i></label>
+              <input type="radio" id="star2" name="nota" value="2" /><label for="star2" title="2 estrelas"><i
+                  class="bi bi-star-fill"></i></label>
+              <input type="radio" id="star1" name="nota" value="1" /><label for="star1" title="1 estrela"><i
+                  class="bi bi-star-fill"></i></label>
+            </div>
+          </div>
+
+          <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">
+              <i class="bi bi-send me-2"></i>
+              Enviar Análise
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Listagem de Análises Recentes -->
+  <h2 class="d-flex h3 mb-3 justify-content-center">Análises Recentes</h2>
+
+  <!-- Container para análises dinâmicas -->
+  <div id="analises-container">
+    <!-- As análises serão carregadas aqui via jQuery -->
+  </div>
+
+</div>
