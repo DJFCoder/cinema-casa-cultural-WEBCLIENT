@@ -16,6 +16,12 @@ const API_ENDPOINTS = {
     analises: {
         listar: `${API_BASE_URL}/analises`,
         cadastrar: `${API_BASE_URL}/analises/cadastrar`
+    },
+    
+    // Endpoint de Tema
+    theme: {
+        get: `${API_BASE_URL}/theme`,
+        set: `${API_BASE_URL}/theme`
     }
 };
 

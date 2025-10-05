@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-bs-theme="light">
 
 <head>
     <title>Casa Cultural - Cinema</title>
@@ -73,6 +73,11 @@
                         // Após carregar a navbar, configura os event listeners
                         if (componentName === 'navbar') {
                             this.setupNavbarListeners();
+                            
+                            // IMPORTANTE: Inicializa o sistema de temas APÓS carregar a navbar
+                            if (window.UIUtils && typeof window.UIUtils.inicializarTema === 'function') {
+                                window.UIUtils.inicializarTema();
+                            }
                         }
                     } catch (error) {
                         console.error(`Erro ao carregar componente ${componentName}:`, error);
@@ -86,7 +91,7 @@
                         link.replaceWith(link.cloneNode(true));
                     });
 
-                    // Re-query after cloning
+                    // Re-query depois de clonar
                     document.querySelectorAll('.nav-link').forEach(link => {
                         link.addEventListener('click', (e) => {
                             e.preventDefault();
