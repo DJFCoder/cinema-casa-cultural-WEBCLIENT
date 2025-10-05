@@ -1,6 +1,6 @@
-// =================================
+// ================================
 // UTILITÁRIOS DE INTERFACE (UI) ||
-// =================================
+// ================================
 
 /**
  * Classe responsável por utilitários de UI
@@ -163,9 +163,9 @@ class UIUtils {
         return true;
     }
 
-    // ========================================
-    // GERENCIAMENTO DE TEMA (DARK/LIGHT MODE)
-    // ========================================
+    // ==========================================
+    // GERENCIAMENTO DE TEMA (DARK/LIGHT MODE) ||
+    // ==========================================
 
     /**
      * Salva preferência de tema no backend (cookie)
